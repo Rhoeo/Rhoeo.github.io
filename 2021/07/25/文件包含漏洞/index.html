@@ -4,19 +4,18 @@
   <meta charset="utf-8">
   
   
-  <title>文件包含漏洞总结 | Hexo</title>
+  <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="文件包含漏洞总结文件包含原理基础：在网页设置中运用了包含的函数，php中居多 123456789101112php中造成文件包含漏洞的函数：1、include() 当使用该函数包含文件时，只有代码执行到 include() 函数时才将文件包含进来，发生错误时只给出一个警告，继续向下执行。2、include_once() 功能和 include() 相同，区别在于当重复调用同一文件时，程序只调用">
+  <meta name="description" content="文件包含漏洞总结">
 <meta property="og:type" content="article">
-<meta property="og:title" content="文件包含漏洞总结">
+<meta property="og:title" content="Hexo">
 <meta property="og:url" content="http://example.com/2021/07/25/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="文件包含漏洞总结文件包含原理基础：在网页设置中运用了包含的函数，php中居多 123456789101112php中造成文件包含漏洞的函数：1、include() 当使用该函数包含文件时，只有代码执行到 include() 函数时才将文件包含进来，发生错误时只给出一个警告，继续向下执行。2、include_once() 功能和 include() 相同，区别在于当重复调用同一文件时，程序只调用">
+<meta property="og:description" content="文件包含漏洞总结">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-07-25T12:41:42.999Z">
-<meta property="article:modified_time" content="2021-07-25T12:59:14.180Z">
+<meta property="article:modified_time" content="2021-07-25T13:01:23.574Z">
 <meta property="article:author" content="John Doe">
-<meta property="article:tag" content="文件包含">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -80,29 +79,15 @@
   <time class="dt-published" datetime="2021-07-25T12:41:42.999Z" itemprop="datePublished">2021-07-25</time>
 </a>
     
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%BC%8F%E6%B4%9E/">漏洞</a>
-  </div>
-
   </div>
   <div class="article-inner">
     
     
-      <header class="article-header">
-        
-  
-    <h1 class="p-name article-title" itemprop="headline name">
-      文件包含漏洞总结
-    </h1>
-  
-
-      </header>
-    
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <span id="more"></span>
+        <h1 id="文件包含漏洞总结"><a href="#文件包含漏洞总结" class="headerlink" title="文件包含漏洞总结"></a>文件包含漏洞总结</h1><span id="more"></span>
 
-<h1 id="文件包含漏洞总结"><a href="#文件包含漏洞总结" class="headerlink" title="文件包含漏洞总结"></a>文件包含漏洞总结</h1><h2 id="文件包含原理基础："><a href="#文件包含原理基础：" class="headerlink" title="文件包含原理基础："></a>文件包含原理基础：</h2><p>在网页设置中运用了包含的函数，php中居多</p>
+<h2 id="文件包含原理基础："><a href="#文件包含原理基础：" class="headerlink" title="文件包含原理基础："></a>文件包含原理基础：</h2><p>在网页设置中运用了包含的函数，php中居多</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">php中造成文件包含漏洞的函数：</span><br><span class="line">1、include() 当使用该函数包含文件时，只有代码执行到 include() 函数时才将文件包含进来，发生错误时只给出一个警告，继续向下执行。</span><br><span class="line">2、include_once() 功能和 include() 相同，区别在于当重复调用同一文件时，程序只调用一次。</span><br><span class="line">3、require() 只要程序一执行就会立即调用文件,发生错误的时候会输出错误信息,并且终止脚本的运行</span><br><span class="line">4、require_once() 它的功能与 require() 相同，区别在于当重复调用同一文件时，程序只调用一次。</span><br><span class="line">hight_file,show_source,readfile,file_get_contents,fopen,file</span><br><span class="line"></span><br><span class="line">jsp/Servlet中：</span><br><span class="line">ava.io.file() , java.io.filereader() ....</span><br><span class="line"></span><br><span class="line">asp中：</span><br><span class="line">include file , include virtual ....</span><br></pre></td></tr></table></figure>
 
 <ol>
@@ -193,12 +178,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/07/25/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" data-id="ckrj7i7r00000vwuw59nq7hws" data-title="文件包含漏洞总结" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/07/25/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" data-id="ckrj7i7r00000vwuw59nq7hws" data-title="" class="article-share-link">Share</a>
       
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" rel="tag">文件包含</a></li></ul>
-
     </footer>
   </div>
   
@@ -208,7 +191,7 @@
   
     <a href="/2021/07/25/dvwa/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">dvwa 做题笔记</div>
+      <div class="article-nav-title"></div>
     </a>
   
 </nav>
@@ -222,33 +205,12 @@
           <aside id="sidebar">
   
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Categories</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/challenge/">challenge</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%BC%8F%E6%B4%9E/">漏洞</a></li></ul>
-    </div>
-  </div>
-
 
   
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/dvwa/" rel="tag">dvwa</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" rel="tag">文件上传</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" rel="tag">文件包含</a></li></ul>
-    </div>
-  </div>
-
 
   
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/dvwa/" style="font-size: 10px;">dvwa</a> <a href="/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" style="font-size: 10px;">文件上传</a> <a href="/tags/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" style="font-size: 10px;">文件包含</a>
-    </div>
-  </div>
-
   
     
   <div class="widget-wrap">
@@ -267,15 +229,15 @@
       <ul>
         
           <li>
-            <a href="/2021/07/25/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/">文件包含漏洞总结</a>
+            <a href="/2021/07/25/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2021/07/25/dvwa/">dvwa 做题笔记</a>
+            <a href="/2021/07/25/dvwa/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2021/07/25/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/">文件上传漏洞总结</a>
+            <a href="/2021/07/25/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/">(no title)</a>
           </li>
         
       </ul>
