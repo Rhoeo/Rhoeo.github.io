@@ -98,6 +98,7 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <span id="more"></span>
+
 <h1 id="文件包含漏洞总结"><a href="#文件包含漏洞总结" class="headerlink" title="文件包含漏洞总结"></a>文件包含漏洞总结</h1><h2 id="文件包含原理基础："><a href="#文件包含原理基础：" class="headerlink" title="文件包含原理基础："></a>文件包含原理基础：</h2><p>在网页设置中运用了包含的函数，php中居多</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">php中造成文件包含漏洞的函数：</span><br><span class="line">1、include() 当使用该函数包含文件时，只有代码执行到 include() 函数时才将文件包含进来，发生错误时只给出一个警告，继续向下执行。</span><br><span class="line">2、include_once() 功能和 include() 相同，区别在于当重复调用同一文件时，程序只调用一次。</span><br><span class="line">3、require() 只要程序一执行就会立即调用文件,发生错误的时候会输出错误信息,并且终止脚本的运行</span><br><span class="line">4、require_once() 它的功能与 require() 相同，区别在于当重复调用同一文件时，程序只调用一次。</span><br><span class="line">hight_file,show_source,readfile,file_get_contents,fopen,file</span><br><span class="line"></span><br><span class="line">jsp/Servlet中：</span><br><span class="line">ava.io.file() , java.io.filereader() ....</span><br><span class="line"></span><br><span class="line">asp中：</span><br><span class="line">include file , include virtual ....</span><br></pre></td></tr></table></figure>
 
@@ -422,6 +423,7 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <span id="more"></span>
+
 <h1 id="文件上传漏洞总结"><a href="#文件上传漏洞总结" class="headerlink" title="文件上传漏洞总结"></a>文件上传漏洞总结</h1><h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>将可执行文件上传到服务器，在服务器端解析执行，从而控制服务器</p>
 <h2 id="校验方法及绕过"><a href="#校验方法及绕过" class="headerlink" title="校验方法及绕过"></a>校验方法及绕过</h2><h3 id="前端（客户端）"><a href="#前端（客户端）" class="headerlink" title="前端（客户端）"></a>前端（客户端）</h3><p>burp抓包修改</p>
 <h3 id="后端（服务端）"><a href="#后端（服务端）" class="headerlink" title="后端（服务端）"></a>后端（服务端）</h3><h4 id="content-type"><a href="#content-type" class="headerlink" title="content-type:"></a>content-type:</h4><p>抓包修改</p>
