@@ -6,15 +6,15 @@
   
   <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="原理将可执行文件上传到服务器，在服务器端解析执行，从而控制服务器 校验方法及绕过前端（客户端）burp抓包修改 后端（服务端）content-type:抓包修改 文件头检测加文件头 GIF89a(gif图的文件头)或制作图片马 黑名单，白名单 大小写，复写  扩展名： 1234jsp jspx jspfasp asa cer aspxphp php php3 php4 phtexe exee %0">
+  <meta name="description" content="文件上传漏洞总结">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
 <meta property="og:url" content="http://example.com/2021/07/25/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="原理将可执行文件上传到服务器，在服务器端解析执行，从而控制服务器 校验方法及绕过前端（客户端）burp抓包修改 后端（服务端）content-type:抓包修改 文件头检测加文件头 GIF89a(gif图的文件头)或制作图片马 黑名单，白名单 大小写，复写  扩展名： 1234jsp jspx jspfasp asa cer aspxphp php php3 php4 phtexe exee %0">
+<meta property="og:description" content="文件上传漏洞总结">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-07-25T12:24:05.546Z">
-<meta property="article:modified_time" content="2021-07-25T09:10:46.647Z">
+<meta property="article:modified_time" content="2021-07-25T12:29:43.954Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -85,11 +85,13 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>将可执行文件上传到服务器，在服务器端解析执行，从而控制服务器</p>
-<h1 id="校验方法及绕过"><a href="#校验方法及绕过" class="headerlink" title="校验方法及绕过"></a>校验方法及绕过</h1><h2 id="前端（客户端）"><a href="#前端（客户端）" class="headerlink" title="前端（客户端）"></a>前端（客户端）</h2><p>burp抓包修改</p>
-<h2 id="后端（服务端）"><a href="#后端（服务端）" class="headerlink" title="后端（服务端）"></a>后端（服务端）</h2><h3 id="content-type"><a href="#content-type" class="headerlink" title="content-type:"></a>content-type:</h3><p>抓包修改</p>
-<h3 id="文件头检测"><a href="#文件头检测" class="headerlink" title="文件头检测"></a>文件头检测</h3><p>加文件头 GIF89a(gif图的文件头)<br>或制作图片马</p>
-<h3 id="黑名单，白名单"><a href="#黑名单，白名单" class="headerlink" title="黑名单，白名单"></a>黑名单，白名单</h3><ol>
+        <h1 id="文件上传漏洞总结"><a href="#文件上传漏洞总结" class="headerlink" title="文件上传漏洞总结"></a>文件上传漏洞总结</h1><span id="more"></span>
+
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>将可执行文件上传到服务器，在服务器端解析执行，从而控制服务器</p>
+<h2 id="校验方法及绕过"><a href="#校验方法及绕过" class="headerlink" title="校验方法及绕过"></a>校验方法及绕过</h2><h3 id="前端（客户端）"><a href="#前端（客户端）" class="headerlink" title="前端（客户端）"></a>前端（客户端）</h3><p>burp抓包修改</p>
+<h3 id="后端（服务端）"><a href="#后端（服务端）" class="headerlink" title="后端（服务端）"></a>后端（服务端）</h3><h4 id="content-type"><a href="#content-type" class="headerlink" title="content-type:"></a>content-type:</h4><p>抓包修改</p>
+<h4 id="文件头检测"><a href="#文件头检测" class="headerlink" title="文件头检测"></a>文件头检测</h4><p>加文件头 GIF89a(gif图的文件头)<br>或制作图片马</p>
+<h4 id="黑名单，白名单"><a href="#黑名单，白名单" class="headerlink" title="黑名单，白名单"></a>黑名单，白名单</h4><ol>
 <li><p>大小写，复写</p>
 </li>
 <li><p>扩展名：</p>
@@ -100,13 +102,13 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;FilesMatch &quot;yjh&quot;&gt; //即匹配文件名中包含 yjh 的文件 </span><br><span class="line">SetHandler application/x-httpd-php</span><br><span class="line">&lt;/FilesMatch&gt;</span><br><span class="line">//也可匹配路径 类似这样/var/www/html/web/upload</span><br></pre></td></tr></table></figure>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AddType application/x-httpd-php .png</span><br></pre></td></tr></table></figure></li>
 </ol>
-<h3 id="配合特殊解析漏洞"><a href="#配合特殊解析漏洞" class="headerlink" title="配合特殊解析漏洞"></a>配合特殊解析漏洞</h3><ol>
+<h4 id="配合特殊解析漏洞"><a href="#配合特殊解析漏洞" class="headerlink" title="配合特殊解析漏洞"></a>配合特殊解析漏洞</h4><ol>
 <li>lls 6.0<br>iis6.0:<br>当建立*.asa,<em>.asp格式的文件夹时，其目录下的任意文件都会被IIS当做asp文件解析。<br>5）当上传的文件为</em>.asp;1.jpg时，IIS6.0同样以ASP脚本来执行。<br>Apache 1x或2x:<br>当apache遇见不认识的后缀名会依次从右往左解析，例如：1.php.rar。<br>不认识rar就向前解析，直到他认识的后缀名。<br>PHPCGI（Nginx）（这个不是phpCGI独有的漏洞有时候在IIS也会出现）：<br>当上传1.jpg之后。访问1.jpg/1.php。此时的1.jpg会被当做php来解析。</li>
 </ol>
-<h1 id="防御手法"><a href="#防御手法" class="headerlink" title="防御手法"></a>防御手法</h1><p>..?</p>
-<ol start="2">
+<h2 id="防御手法"><a href="#防御手法" class="headerlink" title="防御手法"></a>防御手法</h2><p>..?</p>
+<ul>
 <li>制作图片马<br>copy 1.jpg/b+2.txt/a 3.jpg<br>GIF89a</li>
-</ol>
+</ul>
 
       
     </div>
@@ -119,16 +121,6 @@
   </div>
   
     
-<nav id="article-nav">
-  
-  
-    <a href="/2021/07/25/test/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">test</div>
-    </a>
-  
-</nav>
-
   
 </article>
 
@@ -163,14 +155,6 @@
         
           <li>
             <a href="/2021/07/25/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2021/07/25/test/">test</a>
-          </li>
-        
-          <li>
-            <a href="/2021/07/25/hello-world/">Hello World</a>
           </li>
         
       </ul>

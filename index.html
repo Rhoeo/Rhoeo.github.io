@@ -83,122 +83,16 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>将可执行文件上传到服务器，在服务器端解析执行，从而控制服务器</p>
-<h1 id="校验方法及绕过"><a href="#校验方法及绕过" class="headerlink" title="校验方法及绕过"></a>校验方法及绕过</h1><h2 id="前端（客户端）"><a href="#前端（客户端）" class="headerlink" title="前端（客户端）"></a>前端（客户端）</h2><p>burp抓包修改</p>
-<h2 id="后端（服务端）"><a href="#后端（服务端）" class="headerlink" title="后端（服务端）"></a>后端（服务端）</h2><h3 id="content-type"><a href="#content-type" class="headerlink" title="content-type:"></a>content-type:</h3><p>抓包修改</p>
-<h3 id="文件头检测"><a href="#文件头检测" class="headerlink" title="文件头检测"></a>文件头检测</h3><p>加文件头 GIF89a(gif图的文件头)<br>或制作图片马</p>
-<h3 id="黑名单，白名单"><a href="#黑名单，白名单" class="headerlink" title="黑名单，白名单"></a>黑名单，白名单</h3><ol>
-<li><p>大小写，复写</p>
-</li>
-<li><p>扩展名：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">jsp jspx jspf</span><br><span class="line">asp asa cer aspx</span><br><span class="line">php php php3 php4 pht</span><br><span class="line">exe exee</span><br></pre></td></tr></table></figure></li>
-<li><p>%00截断<br>条件 php &lt; 5.3.4  magic_quotes_gpc off状态<br>%00 截断在 GET 中被 url 解码之后是空字符。但是在 POST 中 %00 不会被 url 解码，所以只能通过 burpsuite 修改 hex 值为 00 （URL decode）进行截断。</p>
-</li>
-<li><p>.htaccess<br>仅限于当前目录和子目录的配置文件<br>先上传htaccess后上传一句话 一直显示连接失败<br>破案：文件名必须是.htaccess  （要欺骗系统）</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;FilesMatch &quot;yjh&quot;&gt; //即匹配文件名中包含 yjh 的文件 </span><br><span class="line">SetHandler application/x-httpd-php</span><br><span class="line">&lt;/FilesMatch&gt;</span><br><span class="line">//也可匹配路径 类似这样/var/www/html/web/upload</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AddType application/x-httpd-php .png</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h3 id="配合特殊解析漏洞"><a href="#配合特殊解析漏洞" class="headerlink" title="配合特殊解析漏洞"></a>配合特殊解析漏洞</h3><ol>
-<li>lls 6.0<br>iis6.0:<br>当建立*.asa,<em>.asp格式的文件夹时，其目录下的任意文件都会被IIS当做asp文件解析。<br>5）当上传的文件为</em>.asp;1.jpg时，IIS6.0同样以ASP脚本来执行。<br>Apache 1x或2x:<br>当apache遇见不认识的后缀名会依次从右往左解析，例如：1.php.rar。<br>不认识rar就向前解析，直到他认识的后缀名。<br>PHPCGI（Nginx）（这个不是phpCGI独有的漏洞有时候在IIS也会出现）：<br>当上传1.jpg之后。访问1.jpg/1.php。此时的1.jpg会被当做php来解析。</li>
-</ol>
-<h1 id="防御手法"><a href="#防御手法" class="headerlink" title="防御手法"></a>防御手法</h1><p>..?</p>
-<ol start="2">
-<li>制作图片马<br>copy 1.jpg/b+2.txt/a 3.jpg<br>GIF89a</li>
-</ol>
-
+        <h1 id="文件上传漏洞总结"><a href="#文件上传漏洞总结" class="headerlink" title="文件上传漏洞总结"></a>文件上传漏洞总结</h1>
+        
+          <p class="article-more-link">
+            <a href="/2021/07/25/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
       <a data-url="http://example.com/2021/07/25/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/" data-id="ckrj6b6ue0001yguwf5uf7f57" data-title="" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-test" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/07/25/test/" class="article-date">
-  <time class="dt-published" datetime="2021-07-25T12:22:41.000Z" itemprop="datePublished">2021-07-25</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/07/25/test/">test</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/07/25/test/" data-id="ckrj6b6u70000yguw6lcn2bzc" data-title="test" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-hello-world" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/07/25/hello-world/" class="article-date">
-  <time class="dt-published" datetime="2021-07-25T09:37:55.626Z" itemprop="datePublished">2021-07-25</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/07/25/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/07/25/hello-world/" data-id="ckrj0egy000009suwg0ma04ys" data-title="Hello World" class="article-share-link">Share</a>
       
       
       
@@ -242,14 +136,6 @@
         
           <li>
             <a href="/2021/07/25/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2021/07/25/test/">test</a>
-          </li>
-        
-          <li>
-            <a href="/2021/07/25/hello-world/">Hello World</a>
           </li>
         
       </ul>
