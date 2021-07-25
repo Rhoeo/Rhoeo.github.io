@@ -6,15 +6,15 @@
   
   <title>dvwa做题笔记 | rhoeoeoeoeoeo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="dvwa 做题笔记brute forcelow 直接爆破 或者 万能密码 admin’ or ‘1’&#x3D;’1  12select * from users where user&#x3D;&amp;#x27;admin&amp;#x27; and password&#x3D;&amp;#x27;1&amp;#x27;; &#x2F;&#x2F;查询不到select * from users where user&#x3D;&amp;#x27;admin&amp;#x27; or &amp;#x27;1">
+  <meta name="description" content="–">
 <meta property="og:type" content="article">
 <meta property="og:title" content="dvwa做题笔记">
 <meta property="og:url" content="http://example.com/2021/07/25/dvwa/index.html">
 <meta property="og:site_name" content="rhoeoeoeoeoeo">
-<meta property="og:description" content="dvwa 做题笔记brute forcelow 直接爆破 或者 万能密码 admin’ or ‘1’&#x3D;’1  12select * from users where user&#x3D;&amp;#x27;admin&amp;#x27; and password&#x3D;&amp;#x27;1&amp;#x27;; &#x2F;&#x2F;查询不到select * from users where user&#x3D;&amp;#x27;admin&amp;#x27; or &amp;#x27;1">
+<meta property="og:description" content="–">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-07-25T12:35:05.930Z">
-<meta property="article:modified_time" content="2021-07-25T13:05:12.400Z">
+<meta property="article:modified_time" content="2021-07-25T13:35:20.073Z">
 <meta property="article:author" content="rhoeo">
 <meta property="article:tag" content="dvwa">
 <meta name="twitter:card" content="summary">
@@ -100,8 +100,9 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <span id="more"></span>
-<h1 id="dvwa-做题笔记"><a href="#dvwa-做题笔记" class="headerlink" title="dvwa 做题笔记"></a>dvwa 做题笔记</h1><h2 id="brute-force"><a href="#brute-force" class="headerlink" title="brute force"></a>brute force</h2><h3 id="low-直接爆破-或者-万能密码-admin’-or-‘1’-’1"><a href="#low-直接爆破-或者-万能密码-admin’-or-‘1’-’1" class="headerlink" title="low 直接爆破 或者 万能密码 admin’ or ‘1’=’1"></a>low 直接爆破 或者 万能密码 admin’ or ‘1’=’1</h3>  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select * from users where user=&#x27;admin&#x27; and password=&#x27;1&#x27;; //查询不到</span><br><span class="line">select * from users where user=&#x27;admin&#x27; or &#x27;1&#x27;=&#x27;1&#x27; and password=&#x27;1&#x27;; //有查询</span><br></pre></td></tr></table></figure>
+        <p>–</p>
+<span id="more"></span>
+<h2 id="brute-force"><a href="#brute-force" class="headerlink" title="brute force"></a>brute force</h2><h3 id="low-直接爆破-或者-万能密码-admin’-or-‘1’-’1"><a href="#low-直接爆破-或者-万能密码-admin’-or-‘1’-’1" class="headerlink" title="low 直接爆破 或者 万能密码 admin’ or ‘1’=’1"></a>low 直接爆破 或者 万能密码 admin’ or ‘1’=’1</h3>  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select * from users where user=&#x27;admin&#x27; and password=&#x27;1&#x27;; //查询不到</span><br><span class="line">select * from users where user=&#x27;admin&#x27; or &#x27;1&#x27;=&#x27;1&#x27; and password=&#x27;1&#x27;; //有查询</span><br></pre></td></tr></table></figure>
 <h3 id="medium-源码中加入mysqli-real-escape-string-过滤转义字符"><a href="#medium-源码中加入mysqli-real-escape-string-过滤转义字符" class="headerlink" title="medium 源码中加入mysqli_real_escape_string 过滤转义字符"></a>medium 源码中加入mysqli_real_escape_string 过滤转义字符</h3><h3 id="high-首部里加了token-需要爆破-密码-token："><a href="#high-首部里加了token-需要爆破-密码-token：" class="headerlink" title="high 首部里加了token 需要爆破 密码+token："></a>high 首部里加了token 需要爆破 密码+token：</h3><pre><code>   burp intruder 
    位置一字典爆破
    递归查询Recursive grep为位置二选择递归
@@ -251,7 +252,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/07/25/dvwa/" data-id="ckrj8lgxx000a1ouwej4ndnri" data-title="dvwa做题笔记" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/07/25/dvwa/" data-id="ckrj8vc64000adwuwgyyog5fn" data-title="dvwa做题笔记" class="article-share-link">Share</a>
       
       
       
